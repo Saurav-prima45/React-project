@@ -1,0 +1,31 @@
+body{
+  background-color: #195783;
+}
+@media screen and (max-width: 1024px) {
+  .topComponents {
+    flex-direction: column;
+  }
+  .doughnutComponentContainer {
+    height: auto !important;
+  }
+  .doughnutChart {
+    width: auto!;
+  }
+  .doughnutComponent {
+    flex-direction: column;
+    width: auto;
+    height: auto;
+  }
+  .middleComponent {
+    flex-direction: column;
+  }
+  .ecommerceChart {
+    flex-direction: column;
+  }
+  .bottomSection{
+    flex-direction: column;
+  }
+  .ecommerceChartContainer{
+    width: 400px !important;
+  }
+}
