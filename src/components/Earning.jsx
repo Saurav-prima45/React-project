@@ -5,53 +5,74 @@ import { earningData } from '../constants';
 const Earning = () => {
     const { cardTitle, data } = earningData;
     const chartRef = useRef(null);
+    const chartInstanceRef = useRef(null);
 
     useEffect(() => {
         const ctx = chartRef.current.getContext('2d');
 
-        // Define chart data
-        const chartData = {
-            labels: ['January', 'February', 'March', 'April', 'May'],
-            datasets: [
-                {
-                    label: 'Sales',
-                    data: [50, 60, 70, 80, 90],
-                    backgroundColor: createGradient(ctx, 'rgba(75, 192, 192, 0.2)', 'rgba(54, 162, 235, 0.2)'),
-                    borderColor: ['rgba(75, 192, 192, 1)'],
-                    borderWidth: 1,
-                },
-            ],
-        };
+        // Destroy previous chart instance if it exists
+        if (chartInstanceRef.current) {
+            chartInstanceRef.current.destroy();
+        }
 
-        // Define chart options
-        const options = {
-            scales: {
-                y: {
-                    beginAtZero: true,
+        // Create new chart instance
+        chartInstanceRef.current = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['', '', '', '', '', '', ''],
+                datasets: [
+                    {
+                        label: 'Dataset 1',
+                        data: [10, 20, 15, 25, 30, 40, 35],
+                        backgroundColor: 'rgba(54, 162, 235, 1)',
+                    },
+                    {
+                        label: 'Dataset 2',
+                        data: [15, 25, 10, 30, 25, 35, 20],
+                        backgroundColor: 'gray',
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false, // Hide the legend
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                return tooltipItem.dataset.label + ': ' + tooltipItem.raw;
+                            },
+                        },
+                    },
+                },
+                scales: {
+                    x: {
+                        stacked: true,
+                        grid: {
+                            display: false, // Remove x-axis grid lines
+                        },
+                    },
+                    y: {
+                        stacked: true,
+                        beginAtZero: true,
+                        grid: {
+                            display: false, // Remove y-axis grid lines
+                        },
+                    },
                 },
             },
-        };
-
-        // Create the chart instance
-        const barChart = new Chart(ctx, {
-            type: 'bar',
-            data: chartData,
-            options: options,
         });
 
         // Cleanup on unmount
         return () => {
-            barChart.destroy();
+            if (chartInstanceRef.current) {
+                chartInstanceRef.current.destroy();
+            }
         };
     }, []);
-
-    // Function to create gradient for bar chart
-    const createGradient = (ctx, color1, color2) => {
-        const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-        gradient.addColorStop(0, color1);
-        gradient.addColorStop(1, color2);
-        return gradient;
-    };
 
     return (
         <div className="p-2 border" style={{ width: '350px', position: 'relative', height: '450px' }}>
@@ -65,7 +86,7 @@ const Earning = () => {
                     </div>
                 ))}
             </div>
-            <div>
+            <div style={{}}>
                 <canvas ref={chartRef} />
             </div>
         </div>

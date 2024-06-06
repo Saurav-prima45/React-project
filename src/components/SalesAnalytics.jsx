@@ -20,35 +20,15 @@ const SalesAnalytics = () => {
             type: 'line',
             data: {
                 labels: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
-                datasets: [
-                    {
-                        label: '',
-                        data: [40, 80, 30, 81, 56, 70, 40],
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        borderWidth: 2,
-                        lineTension: 0.2, // Set line tension for smooth curves
-                        pointRadius: 0, // Remove points
-                        pointHoverRadius: 0, // Remove hover points
-                    },
-                    {
-                        label: '',
-                        data: [28, 50, 12, 50, 6, 60, 30],
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 2,
-                        lineTension: 0.4, // Set line tension for smooth curves
-                        pointRadius: 0, // Remove points
-                        pointHoverRadius: 0, // Remove hover points
-                    },
-                    {
-                        label: '',
-                        data: [35, 70, 17, 60, 20, 18, 90],
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 2,
-                        lineTension: 0.4, // Set line tension for smooth curves
-                        pointRadius: 0, // Remove points
-                        pointHoverRadius: 0, // Remove hover points
-                    },
-                ],
+                datasets: data.map((item, index) => ({
+                    label: '',
+                    data: item.values,
+                    borderColor: index === 0 ? 'blue' : index === 1 ? 'black' : 'yellow',
+                    borderWidth: 2,
+                    lineTension: 0.2, // Set line tension for smooth curves
+                    pointRadius: 0, // Remove points
+                    pointHoverRadius: 0, // Remove hover points
+                })),
             },
             options: {
                 responsive: true,
@@ -109,7 +89,7 @@ const SalesAnalytics = () => {
                             <img src={item.icon} alt="" width={10} />
                             <span style={{ fontWeight: '600' }}>{item.label}</span>
                         </div>
-                        <p style={{ fontSize: '32px', fontWeight: '600px' }}>{item.value}</p>
+                        <p style={{ fontSize: '32px', fontWeight: '600', color: id === 0 ? 'blue' : id === 1 ? 'black' : 'yellow' }}>{item.value}</p>
                     </div>
                 ))}
                 <button style={{ height: 'fit-content', border: 'none', borderRadius: '5px' }}>Month</button>
@@ -122,3 +102,4 @@ const SalesAnalytics = () => {
 };
 
 export default SalesAnalytics;
+
